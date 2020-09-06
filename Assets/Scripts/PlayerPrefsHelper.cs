@@ -43,8 +43,7 @@ public class PlayerPrefsHelper
         }
 
         TimeZoneInfo.ClearCachedData(); // just in case the time zone has changed
-        DateTime lastUpdateDate;
-        bool dateParsedSuccessfully = DateTime.TryParseExact(lastUpdateUTCString, "O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out lastUpdateDate);
+        bool dateParsedSuccessfully = DateTime.TryParseExact(lastUpdateUTCString, "O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTime lastUpdateDate);
 
         if (!dateParsedSuccessfully)
         {
