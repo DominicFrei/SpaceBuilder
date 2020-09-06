@@ -469,7 +469,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Crystal: 42,000'
+  m_Text: 'Crystal:'
 --- !u!222 &861624667
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -594,7 +594,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Deuterium: 42,000'
+  m_Text: 'Deuterium:'
 --- !u!222 &1251969302
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -739,7 +739,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Metal: 42,000'
+  m_Text: 'Metal:'
 --- !u!222 &1960659899
 CanvasRenderer:
   m_ObjectHideFlags: 0
