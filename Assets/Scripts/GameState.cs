@@ -12,7 +12,9 @@ public class GameState : MonoBehaviour
     private int _metal = 0;
     private int _crystal = 0;
     private int _deuterium = 0;
-    
+
+    private readonly WaitForSeconds _resourcesUpdateInterval = new WaitForSeconds(1.0f);
+
     void Start()
     {
         LoadResources();
@@ -32,7 +34,7 @@ public class GameState : MonoBehaviour
             PlayerPrefsHelper.SaveResources(_metal, _crystal, _deuterium);
             PlayerPrefsHelper.SaveLastUpdateDate();
 
-            yield return new WaitForSeconds(1.0f);
+            yield return _resourcesUpdateInterval;
         }
     }
 
@@ -46,30 +48,19 @@ public class GameState : MonoBehaviour
     private void LoadResources()
     {
         (int metal, int crystal, int deuterium) = PlayerPrefsHelper.LoadResources();
-        int secondsSinceLastUpdate = SecondsSinceLastUpdate();
+        
+        DateTime? lastUpdateDate = PlayerPrefsHelper.LoadLastUpdateDate();
+        int secondsSinceLastUpdate = 0;
+        if (null != lastUpdateDate)
+        {
+            secondsSinceLastUpdate = DateHelper.DifferenceToNowInSeconds(lastUpdateDate);
+        }        
 
         _metal = metal + secondsSinceLastUpdate;
         _crystal = crystal + secondsSinceLastUpdate;
         _deuterium = deuterium + secondsSinceLastUpdate;
 
         Debug.Log("Resources added: " + secondsSinceLastUpdate);
-    }
-
-    
-
-    private int SecondsSinceLastUpdate()
-    {
-        DateTime? lastUpdateDate = PlayerPrefsHelper.LoadLastUpdateDate();
-        if (null == lastUpdateDate)
-        {
-            return 0;
-        }
-
-        DateTime now = DateTime.Now.ToUniversalTime();
-        DateTime unwrappedLastUpdateDate = lastUpdateDate ?? now;
-        TimeSpan difference = now - unwrappedLastUpdateDate;
-        int differenceInSeconds = (int)difference.TotalSeconds;
-        return differenceInSeconds;
     }
 
 }

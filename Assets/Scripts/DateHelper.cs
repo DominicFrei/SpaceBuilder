@@ -1,18 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-public class DateHelper : MonoBehaviour
+public class DateHelper
 {
-    // Start is called before the first frame update
-    void Start()
+    public static int DifferenceToNowInSeconds(DateTime? datetime)
     {
-        
+        return DifferenceInSeconds(datetime, DateTime.Now.ToUniversalTime());
     }
 
-    // Update is called once per frame
-    void Update()
+    public static int DifferenceInSeconds(DateTime? date1, DateTime? date2)
     {
-        
+        if (null == date1 || null == date2)
+        {
+            Debug.LogWarning("At least one date was null.");
+            return 0;
+        }
+
+        DateTime date1Value = date1 ?? DateTime.Now;
+        DateTime date2Value = date2 ?? DateTime.Now;
+
+        TimeSpan difference = date1Value - date2Value;
+        TimeSpan unsignedDifference = difference.Duration();
+        int differenceInSeconds = (int)unsignedDifference.TotalSeconds;
+        return differenceInSeconds;
     }
 }
