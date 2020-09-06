@@ -24,6 +24,7 @@ public class PlayerPrefsHelper
         int deuterium = PlayerPrefs.GetInt(_keyDeuterium);
         return (metal, crystal, deuterium);
     }
+
     public static void SaveLastUpdateDate()
     {
         DateTime now = DateTime.Now;
@@ -36,14 +37,14 @@ public class PlayerPrefsHelper
     {
         String lastUpdateUTCString = PlayerPrefs.GetString(_keyLastUpdate);
 
-        if ("" == lastUpdateUTCString)
+        if (lastUpdateUTCString.Equals(""))
         {
             Debug.LogWarning("Could not read lastUpdate. Probably never saved before.");
             return null;
         }
 
         TimeZoneInfo.ClearCachedData(); // just in case the time zone has changed
-        bool dateParsedSuccessfully = DateTime.TryParseExact(lastUpdateUTCString, "O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTime lastUpdateDate);
+        bool dateParsedSuccessfully = DateTime.TryParseExact(lastUpdateUTCString, _dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTime lastUpdateDate);
 
         if (!dateParsedSuccessfully)
         {
