@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameState : MonoBehaviour
+public class ResourceCounter : MonoBehaviour
 {
     [SerializeField] private Text _textMetal = null;
     [SerializeField] private Text _textCrystal = null;
