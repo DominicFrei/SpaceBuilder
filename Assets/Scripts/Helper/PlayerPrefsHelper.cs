@@ -10,11 +10,17 @@ public class PlayerPrefsHelper
     private static readonly String _keyLastUpdate = "key.lastUpdate";
     private static readonly String _dateFormat = "O";
 
+    enum Keys
+    {
+        foo
+    }
+
     public static void SaveResources(int metal, int crystal, int deuterium)
     {
         PlayerPrefs.SetInt(_keyMetal, metal);
         PlayerPrefs.SetInt(_keyCrystal, crystal);
         PlayerPrefs.SetInt(_keyDeuterium, deuterium);
+        Debug.Log("foooo:" + Keys.foo.ToString());
     }
 
     public static (int metal, int crystal, int deuterium) LoadResources()
