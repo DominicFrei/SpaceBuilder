@@ -13,24 +13,35 @@ public class BuildingList : MonoBehaviour
 
     void Start()
     {
+        _metalMineLevel = PlayerPrefsHelper.LoadBuildingLevel(PlayerPrefsHelper.Building.metalMine);
+        _crystalMineLevel = PlayerPrefsHelper.LoadBuildingLevel(PlayerPrefsHelper.Building.crystalMine);
+        _deuteriumMineLevel = PlayerPrefsHelper.LoadBuildingLevel(PlayerPrefsHelper.Building.deuteriumMine);
+        
+        // Make sure the level is at least 1 (which could be 0 on the first load).
+        _metalMineLevel = Mathf.Max(_metalMineLevel, 1);
+        _crystalMineLevel = Mathf.Max(_crystalMineLevel, 1);
+        _deuteriumMineLevel = Mathf.Max(_deuteriumMineLevel, 1);
         UpdateUI();
     }
 
     public void MetalMineUpgradeClicked()
     {
         _metalMineLevel += 1;
+        PlayerPrefsHelper.SaveBuildingLevel(PlayerPrefsHelper.Building.metalMine, _metalMineLevel);
         UpdateUI();
     }
 
     public void CrystalMineUpgradeClicked()
     {
         _crystalMineLevel += 1;
+        PlayerPrefsHelper.SaveBuildingLevel(PlayerPrefsHelper.Building.crystalMine, _crystalMineLevel);
         UpdateUI();
     }
 
     public void DeuteriumMineUpgradeClicked()
     {
         _deuteriumMineLevel += 1;
+        PlayerPrefsHelper.SaveBuildingLevel(PlayerPrefsHelper.Building.deuteriumMine, _deuteriumMineLevel);
         UpdateUI();
     }
 
