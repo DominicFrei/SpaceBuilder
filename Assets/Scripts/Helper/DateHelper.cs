@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class DateHelper
+public static class DateHelper
 {
     public static int DifferenceToNowInSeconds(DateTime? datetime)
     {
