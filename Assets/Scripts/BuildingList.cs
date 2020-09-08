@@ -41,11 +41,6 @@ public class BuildingList : MonoBehaviour
     private void LoadBuildingData()
     {
         _buildings = Database.LoadBuildings();
-
-        // Make sure the level is at least 1 (which could be 0 on the first load).
-        _buildings.MetalMine.Level = Mathf.Max(_buildings.MetalMine.Level, 1);
-        _buildings.CrystalMine.Level = Mathf.Max(_buildings.CrystalMine.Level, 1);
-        _buildings.DeuteriumMine.Level = Mathf.Max(_buildings.DeuteriumMine.Level, 1);
     }
 
     private void UpdateUI()
