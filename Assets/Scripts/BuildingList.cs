@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,13 +40,15 @@ public class BuildingList : MonoBehaviour
 
     public void CrystalMineUpgradeClicked()
     {
-        _crystalMine.Level += 1;
+        _crystalMine.IsUpgrading = true;
+        _crystalMine.UpgradeFinishedAt = DateTime.UtcNow.AddSeconds(10);
         UpdateUI();
     }
 
     public void DeuteriumMineUpgradeClicked()
     {
-        _deuteriumMine.Level += 1;
+        _deuteriumMine.IsUpgrading = true;
+        _deuteriumMine.UpgradeFinishedAt = DateTime.UtcNow.AddSeconds(10);
         UpdateUI();
     }
 
@@ -68,40 +71,48 @@ public class BuildingList : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (_metalMine.IsUpgrading)
-        {
-            if (null != _metalMine.UpgradeFinishedAt && DateTime.UtcNow < _metalMine.UpgradeFinishedAt)
-            {
-                _metalMineUpgradeButton.interactable = false;
-                TimeSpan timeTillUpdate = (_metalMine.UpgradeFinishedAt ?? DateTime.UtcNow) - DateTime.UtcNow;
-                int timeInSeconds = (int)timeTillUpdate.TotalSeconds;
-                _metalMineUpgradeButton.GetComponentInChildren<Text>().text = "Upgrading ... (" + timeInSeconds + " seconds)";
-                Logger.Info("Metal mine upgrade started.");
-            }            
-            else if (null != _metalMine.UpgradeFinishedAt && DateTime.UtcNow >= _metalMine.UpgradeFinishedAt)
-            {
-                _metalMine.Level += 1;
-                _metalMine.IsUpgrading = false;
-                _metalMine.UpgradeFinishedAt = null;
+        CheckBuildingUpgrade(_metalMine, _metalMineUpgradeButton);
+        CheckBuildingUpgrade(_crystalMine, _crystalMineUpgradeButton);
+        CheckBuildingUpgrade(_deuteriumMine, _deuteriumMineUpgradeButton);
 
-                _metalMineUpgradeButton.interactable = true;
-                _metalMineUpgradeButton.GetComponentInChildren<Text>().text = "Upgrade";
-                Logger.Info("Metal mine upgrade finished.");
+        _textMetalMine.text = "Metal Mine (Level " + _metalMine.Level + ")";
+        _textCrystalMine.text = "Crystal Mine (Level " + _crystalMine.Level + ")";
+        _textDeuteriumMine.text = "Deuterium Mine (Level " + _deuteriumMine.Level + ")";
+    }
+
+    private void CheckBuildingUpgrade(BuildingEntity building, Button button)
+    {
+        if (building.IsUpgrading)
+        {
+            if (null != building.UpgradeFinishedAt && DateTime.UtcNow < building.UpgradeFinishedAt)
+            {
+                button.interactable = false;
+                TimeSpan timeTillUpdate = (building.UpgradeFinishedAt ?? DateTime.UtcNow) - DateTime.UtcNow;
+                int timeInSeconds = (int)timeTillUpdate.TotalSeconds;
+                button.GetComponentInChildren<Text>().text = "Upgrading ... (" + timeInSeconds + " seconds)";
+                Logger.Debug("Upgrade for " + building.Name + " has started.");
+            }
+            else if (null != building.UpgradeFinishedAt && DateTime.UtcNow >= building.UpgradeFinishedAt)
+            {
+                building.Level += 1;
+                building.IsUpgrading = false;
+                building.UpgradeFinishedAt = null;
+
+                button.interactable = true;
+                button.GetComponentInChildren<Text>().text = "Upgrade";
+                Logger.Debug("Upgrade for " + building.Name + " has finished.");
             }
             else
             {
-                Logger.Warning("Uhm ...");
+                Logger.Warning("This branch should not be called ever. If a building is upgrading, a finish date has to be set.");
             }
         }
         else
         {
-            _metalMineUpgradeButton.interactable = true;
-            _metalMineUpgradeButton.GetComponentInChildren<Text>().text = "Upgrade";
-            Logger.Debug("No Metal mine upgrade running.");
+            button.interactable = true;
+            button.GetComponentInChildren<Text>().text = "Upgrade";
+            Logger.Debug("No upgrade running for " + building.Name + ".");
         }
-        _textMetalMine.text = "Metal Mine (Level " + _metalMine.Level + ")";
-        _textCrystalMine.text = "Crystal Mine (Level " + _crystalMine.Level + ")";
-        _textDeuteriumMine.text = "Deuterium Mine (Level " + _deuteriumMine.Level + ")";
     }
 
 }

@@ -2,7 +2,7 @@
 
     // TODO line numbers
 {
-    public static LogLevel DefaultLogLevel = LogLevel.Debug;
+    public static LogLevel DefaultLogLevel = LogLevel.Info;
 
     public enum LogLevel
     {
