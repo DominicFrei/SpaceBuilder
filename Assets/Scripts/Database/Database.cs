@@ -7,32 +7,34 @@ public static class Database
 {
     private static readonly string _savePath = Application.persistentDataPath + "/resources.bin";
 
-    public static void SaveResources(int metal, int crystal, int deuterium)
+    public static void SaveResources(int metal, int crystal, int deuterium, DateTime lastUpdate)
     {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         FileStream fileStream = new FileStream(_savePath, FileMode.Create);
-        ResourcesEntity resourcesEntity = new ResourcesEntity(metal, crystal, deuterium);
+        string lastUpdateString = DateHelper.ToUniversalDateString(lastUpdate);
+        ResourcesEntity resourcesEntity = new ResourcesEntity(metal, crystal, deuterium, lastUpdateString);
         try
         {
             binaryFormatter.Serialize(fileStream, resourcesEntity);
         }
         catch (Exception exception)
         {
-            Debug.LogError("Error during serialization: " + exception);
+            Logger.Error("Error during serialization: " + exception);
         }
         finally
         {
             fileStream.Close();
-        }        
-        Debug.Log("Data saved to " + _savePath);
+        }
+        Logger.Debug("Saved resources: " + metal + " / " + crystal + " / " + deuterium);
+        Logger.Info("Resources saved to " + _savePath);
     }
 
-    public static (int metal, int crystal, int deuterium) LoadResources()
+    public static (int metal, int crystal, int deuterium, DateTime lastUpdate) LoadResources()
     {
         if (!File.Exists(_savePath))
         {
-            Debug.LogError("Could not find file at path: " + _savePath);
-            return (0, 0, 0);
+            Logger.Error("Could not find file at path: " + _savePath);
+            return (0, 0, 0, DateTime.Now);
         }
 
         BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -44,15 +46,17 @@ public static class Database
         }
         catch (Exception exception)
         {
-            Debug.LogError("Error during deserialization: " + exception);
-            return (0, 0, 0);
+            Logger.Error("Error during deserialization: " + exception);
+            return (0, 0, 0, DateTime.Now);
         }
         finally
         {
             fileStream.Close();
         }
 
-        return (resourcesEntity.Metal, resourcesEntity.Crystal, resourcesEntity.Deuterium);
+        DateTime lastUpdate = DateHelper.UniversalDateFromString(resourcesEntity.LastUpdate) ?? DateTime.Now;
+
+        return (resourcesEntity.Metal, resourcesEntity.Crystal, resourcesEntity.Deuterium, lastUpdate);
     }
 
 }

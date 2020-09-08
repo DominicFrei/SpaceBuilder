@@ -10,8 +10,6 @@ public static class PlayerPrefsHelper
 
     private static readonly String _keyLastUpdate = "key.lastUpdate";
 
-    private static readonly String _dateFormat = "O";
-
     public enum Building
     {
         metalMine,
@@ -21,10 +19,8 @@ public static class PlayerPrefsHelper
 
     public static void SaveLastUpdateDate()
     {
-        DateTime now = DateTime.Now;
-        DateTime nowUTC = now.ToUniversalTime();
-        String nowUTCString = nowUTC.ToString(_dateFormat, CultureInfo.InvariantCulture);
-        PlayerPrefs.SetString(_keyLastUpdate, nowUTCString);
+        String nowString = DateHelper.ToUniversalDateString(DateTime.Now);
+        PlayerPrefs.SetString(_keyLastUpdate, nowString);
     }
 
     public static DateTime? LoadLastUpdateDate()
@@ -33,19 +29,11 @@ public static class PlayerPrefsHelper
 
         if (lastUpdateUTCString.Equals(String.Empty))
         {
-            Debug.LogWarning("Could not read lastUpdate. Probably never saved before.");
+            Logger.Warning("Could not read lastUpdate. Probably never saved before.");
             return null;
         }
 
-        TimeZoneInfo.ClearCachedData(); // just in case the time zone has changed
-        bool dateParsedSuccessfully = DateTime.TryParseExact(lastUpdateUTCString, _dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTime lastUpdateDate);
-
-        if (!dateParsedSuccessfully)
-        {
-            Debug.LogError("Could not parse saved date.");
-            return null;
-        }
-
+        DateTime? lastUpdateDate = DateHelper.UniversalDateFromString(lastUpdateUTCString);
         return lastUpdateDate;
     }
 
@@ -63,6 +51,7 @@ public static class PlayerPrefsHelper
                 PlayerPrefs.SetInt(_keyDeuteriumMineLevel, level);
                 break;
         }
+        Logger.Debug("Saved building " + building + " with level " + level + ".");
     }
 
     public static int LoadBuildingLevel(Building building)

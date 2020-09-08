@@ -24,7 +24,7 @@ public class ResourceCounter : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        Database.SaveResources(_metal, _crystal, _deuterium);
+        Database.SaveResources(_metal, _crystal, _deuterium, DateTime.Now);
         PlayerPrefsHelper.SaveLastUpdateDate();
     }
 
@@ -50,20 +50,15 @@ public class ResourceCounter : MonoBehaviour
 
     private void LoadResources()
     {
-        (int metal, int crystal, int deuterium) = Database.LoadResources();
+        (int metal, int crystal, int deuterium, DateTime lastUpdate) = Database.LoadResources();
 
-        DateTime ? lastUpdateDate = PlayerPrefsHelper.LoadLastUpdateDate();
-        int secondsSinceLastUpdate = 0;
-        if (null != lastUpdateDate)
-        {
-            secondsSinceLastUpdate = DateHelper.DifferenceToNowInSeconds(lastUpdateDate);
-        }        
+        int secondsSinceLastUpdate = DateHelper.DifferenceToNowInSeconds(lastUpdate);
 
         _metal = metal + secondsSinceLastUpdate;
         _crystal = crystal + secondsSinceLastUpdate;
         _deuterium = deuterium + secondsSinceLastUpdate;
 
-        Debug.Log("Resources added: " + secondsSinceLastUpdate);
+        Logger.Info("Resources added: " + secondsSinceLastUpdate);
     }
 
 }
