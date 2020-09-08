@@ -239,7 +239,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 95.99998, y: 92.95201}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 200, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &80942743
 MonoBehaviour:
@@ -1029,7 +1029,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 95.99998, y: 32.868004}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 200, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &954780425
 MonoBehaviour:
@@ -1240,7 +1240,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 95.99998, y: 62.952007}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 200, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1038825416
 MonoBehaviour:
@@ -1471,6 +1471,9 @@ MonoBehaviour:
   _textMetalMine: {fileID: 1499847904}
   _textCrystalMine: {fileID: 793612809}
   _textDeuteriumMine: {fileID: 1758391849}
+  _metalMineUpgradeButton: {fileID: 80942743}
+  _crystalMineUpgradeButton: {fileID: 1038825416}
+  _deuteriumMineUpgradeButton: {fileID: 954780425}
 --- !u!1 &1499847902
 GameObject:
   m_ObjectHideFlags: 0
