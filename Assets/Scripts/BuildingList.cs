@@ -19,9 +19,9 @@ public class BuildingList : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        PlayerPrefsHelper.SaveBuildingLevel(PlayerPrefsHelper.Building.metalMine, _metalMineLevel);
-        PlayerPrefsHelper.SaveBuildingLevel(PlayerPrefsHelper.Building.crystalMine, _crystalMineLevel);
-        PlayerPrefsHelper.SaveBuildingLevel(PlayerPrefsHelper.Building.deuteriumMine, _deuteriumMineLevel);
+        Database.SaveBuildingLevel(Database.Building.metalMine, _metalMineLevel);
+        Database.SaveBuildingLevel(Database.Building.crystalMine, _crystalMineLevel);
+        Database.SaveBuildingLevel(Database.Building.deuteriumMine, _deuteriumMineLevel);
     }
 
     public void MetalMineUpgradeClicked()
@@ -44,9 +44,9 @@ public class BuildingList : MonoBehaviour
 
     private void LoadBuildingData()
     {
-        _metalMineLevel = PlayerPrefsHelper.LoadBuildingLevel(PlayerPrefsHelper.Building.metalMine);
-        _crystalMineLevel = PlayerPrefsHelper.LoadBuildingLevel(PlayerPrefsHelper.Building.crystalMine);
-        _deuteriumMineLevel = PlayerPrefsHelper.LoadBuildingLevel(PlayerPrefsHelper.Building.deuteriumMine);
+        _metalMineLevel = Database.LoadBuildingLevel(Database.Building.metalMine);
+        _crystalMineLevel = Database.LoadBuildingLevel(Database.Building.crystalMine);
+        _deuteriumMineLevel = Database.LoadBuildingLevel(Database.Building.deuteriumMine);
 
         // Make sure the level is at least 1 (which could be 0 on the first load).
         _metalMineLevel = Mathf.Max(_metalMineLevel, 1);
