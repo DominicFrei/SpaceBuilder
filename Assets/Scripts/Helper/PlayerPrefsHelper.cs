@@ -8,33 +8,11 @@ public static class PlayerPrefsHelper
     private static readonly String _keyCrystalMineLevel = "key.crystalMineLevel";
     private static readonly String _keyDeuteriumMineLevel = "key.deuteriumMineLevel";
 
-    private static readonly String _keyLastUpdate = "key.lastUpdate";
-
     public enum Building
     {
         metalMine,
         crystalMine,
         deuteriumMine
-    }
-
-    public static void SaveLastUpdateDate()
-    {
-        String nowString = DateHelper.ToUniversalDateString(DateTime.Now);
-        PlayerPrefs.SetString(_keyLastUpdate, nowString);
-    }
-
-    public static DateTime? LoadLastUpdateDate()
-    {
-        String lastUpdateUTCString = PlayerPrefs.GetString(_keyLastUpdate);
-
-        if (lastUpdateUTCString.Equals(String.Empty))
-        {
-            Logger.Warning("Could not read lastUpdate. Probably never saved before.");
-            return null;
-        }
-
-        DateTime? lastUpdateDate = DateHelper.UniversalDateFromString(lastUpdateUTCString);
-        return lastUpdateDate;
     }
 
     public static void SaveBuildingLevel(Building building, int level)

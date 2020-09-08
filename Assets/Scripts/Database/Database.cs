@@ -5,17 +5,46 @@ using UnityEngine;
 
 public static class Database
 {
-    private static readonly string _savePath = Application.persistentDataPath + "/resources.bin";
+    private static readonly string _savePathResources = Application.persistentDataPath + "/resources.bin";
+    private static readonly string _savePathMetalMine = Application.persistentDataPath + "/metalMine.bin";
+    private static readonly string _savePathCrystalMine = Application.persistentDataPath + "/crystalMine.bin";
+    private static readonly string _savePathDeuteriumMine = Application.persistentDataPath + "/deuteriumMine.bin";
 
     public static void SaveResources(int metal, int crystal, int deuterium, DateTime lastUpdate)
     {
-        BinaryFormatter binaryFormatter = new BinaryFormatter();
-        FileStream fileStream = new FileStream(_savePath, FileMode.Create);
         string lastUpdateString = DateHelper.ToUniversalDateString(lastUpdate);
         ResourcesEntity resourcesEntity = new ResourcesEntity(metal, crystal, deuterium, lastUpdateString);
+        Database.SaveEntity<ResourcesEntity>(resourcesEntity, _savePathResources);
+        Logger.Debug("Saved resources: " + metal + " / " + crystal + " / " + deuterium + " / " + lastUpdateString);
+    }
+
+    public static (int metal, int crystal, int deuterium, DateTime lastUpdate) LoadResources()
+    {
+        ResourcesEntity resourcesEntity;
+
         try
         {
-            binaryFormatter.Serialize(fileStream, resourcesEntity);
+            resourcesEntity = LoadEntity<ResourcesEntity>(_savePathResources);
+        }
+        catch (Exception exception)
+        {
+            Logger.Error("Exception while loading resources: " + exception);
+            return (0, 0, 0, DateTime.Now);
+        }
+
+        DateTime lastUpdate = DateHelper.UniversalDateFromString(resourcesEntity.LastUpdate) ?? DateTime.Now;
+
+        return (resourcesEntity.Metal, resourcesEntity.Crystal, resourcesEntity.Deuterium, lastUpdate);
+    }
+
+    private static void SaveEntity<T>(T entity, string path)
+    {
+        BinaryFormatter binaryFormatter = new BinaryFormatter();
+        FileStream fileStream = new FileStream(path, FileMode.Create);
+
+        try
+        {
+            binaryFormatter.Serialize(fileStream, entity);
         }
         catch (Exception exception)
         {
@@ -25,38 +54,35 @@ public static class Database
         {
             fileStream.Close();
         }
-        Logger.Debug("Saved resources: " + metal + " / " + crystal + " / " + deuterium);
-        Logger.Info("Resources saved to " + _savePath);
+        Logger.Info("Saved data to: " + _savePathResources);
     }
 
-    public static (int metal, int crystal, int deuterium, DateTime lastUpdate) LoadResources()
+    private static T LoadEntity<T>(string path)
     {
-        if (!File.Exists(_savePath))
+        if (!File.Exists(path))
         {
-            Logger.Error("Could not find file at path: " + _savePath);
-            return (0, 0, 0, DateTime.Now);
+            Logger.Error("Could not find file at path: " + path);
+            throw new FileNotFoundException();
         }
 
         BinaryFormatter binaryFormatter = new BinaryFormatter();
-        FileStream fileStream = new FileStream(_savePath, FileMode.Open);
-        ResourcesEntity resourcesEntity;
+        FileStream fileStream = new FileStream(path, FileMode.Open);
+        T entity;
         try
         {
-            resourcesEntity = (ResourcesEntity)binaryFormatter.Deserialize(fileStream);
+            entity = (T)binaryFormatter.Deserialize(fileStream);
         }
         catch (Exception exception)
         {
             Logger.Error("Error during deserialization: " + exception);
-            return (0, 0, 0, DateTime.Now);
+            throw;
         }
         finally
         {
             fileStream.Close();
         }
 
-        DateTime lastUpdate = DateHelper.UniversalDateFromString(resourcesEntity.LastUpdate) ?? DateTime.Now;
-
-        return (resourcesEntity.Metal, resourcesEntity.Crystal, resourcesEntity.Deuterium, lastUpdate);
+        return entity;
     }
 
 }

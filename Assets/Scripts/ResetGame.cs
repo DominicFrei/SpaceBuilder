@@ -8,7 +8,6 @@ public class ResetGame : MonoBehaviour
     {
         Time.timeScale = 0.0f;
         Database.SaveResources(0, 0, 0, DateTime.Now);
-        PlayerPrefsHelper.SaveLastUpdateDate();
         PlayerPrefsHelper.SaveBuildingLevel(PlayerPrefsHelper.Building.metalMine, 1);
         PlayerPrefsHelper.SaveBuildingLevel(PlayerPrefsHelper.Building.crystalMine, 1);
         PlayerPrefsHelper.SaveBuildingLevel(PlayerPrefsHelper.Building.deuteriumMine, 1);

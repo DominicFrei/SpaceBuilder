@@ -25,7 +25,6 @@ public class ResourceCounter : MonoBehaviour
     private void OnApplicationQuit()
     {
         Database.SaveResources(_metal, _crystal, _deuterium, DateTime.Now);
-        PlayerPrefsHelper.SaveLastUpdateDate();
     }
 
     private IEnumerator UpdateResourceCounter()

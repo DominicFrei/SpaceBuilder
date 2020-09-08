@@ -3,12 +3,12 @@
 [Serializable]
 public class GameState
 {
-    public ResourcesEntity ResourceEntity;
-    public BuildingList BuildingList;
+    public ResourcesEntity ResourceEntity { get; private set; }
+    public BuildingsEntity BuildingsEntity { get; private set; }
 
-    public GameState(ResourcesEntity resourceEntity, BuildingList buildingList)
+    public GameState(ResourcesEntity resourceEntity, BuildingsEntity buildingsEntity)
     {
         this.ResourceEntity = resourceEntity;
-        this.BuildingList = buildingList;
+        this.BuildingsEntity = buildingsEntity;
     }
 }
