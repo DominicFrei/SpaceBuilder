@@ -24,22 +24,19 @@ public class BuildingList : MonoBehaviour
         PlayerPrefsHelper.SaveBuildingLevel(PlayerPrefsHelper.Building.deuteriumMine, _deuteriumMineLevel);
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "OnClick() for button")]
-    private void MetalMineUpgradeClicked()
+    public void MetalMineUpgradeClicked()
     {
         _metalMineLevel += 1;
         UpdateUI();
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "OnClick() for button")]
-    private void CrystalMineUpgradeClicked()
+    public void CrystalMineUpgradeClicked()
     {
         _crystalMineLevel += 1;
         UpdateUI();
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "OnClick() for button")]
-    private void DeuteriumMineUpgradeClicked()
+    public void DeuteriumMineUpgradeClicked()
     {
         _deuteriumMineLevel += 1;
         UpdateUI();
