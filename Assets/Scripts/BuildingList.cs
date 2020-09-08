@@ -86,10 +86,11 @@ public class BuildingList : MonoBehaviour
         {
             if (null != building.UpgradeFinishedAt && DateTime.UtcNow < building.UpgradeFinishedAt)
             {
-                button.interactable = false;
+                SetButtonInteractibility(false);
                 TimeSpan timeTillUpdate = (building.UpgradeFinishedAt ?? DateTime.UtcNow) - DateTime.UtcNow;
                 int timeInSeconds = (int)timeTillUpdate.TotalSeconds;
                 button.GetComponentInChildren<Text>().text = "Upgrading ... (" + timeInSeconds + " seconds)";
+
                 Logger.Debug("Upgrade for " + building.Name + " has started.");
             }
             else if (null != building.UpgradeFinishedAt && DateTime.UtcNow >= building.UpgradeFinishedAt)
@@ -98,8 +99,9 @@ public class BuildingList : MonoBehaviour
                 building.IsUpgrading = false;
                 building.UpgradeFinishedAt = null;
 
-                button.interactable = true;
                 button.GetComponentInChildren<Text>().text = "Upgrade";
+                SetButtonInteractibility(true);
+
                 Logger.Debug("Upgrade for " + building.Name + " has finished.");
             }
             else
@@ -109,10 +111,16 @@ public class BuildingList : MonoBehaviour
         }
         else
         {
-            button.interactable = true;
             button.GetComponentInChildren<Text>().text = "Upgrade";
             Logger.Debug("No upgrade running for " + building.Name + ".");
         }
+    }
+
+    private void SetButtonInteractibility(bool active)
+    {
+        _metalMineUpgradeButton.interactable = active;
+        _crystalMineUpgradeButton.interactable = active;
+        _deuteriumMineUpgradeButton.interactable = active;
     }
 
 }
