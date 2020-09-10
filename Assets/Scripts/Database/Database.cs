@@ -62,7 +62,7 @@ public static class Database
         {
             fileStream.Close();
         }
-        Logger.Info("Saved data to: " + _savePathResources);
+        Logger.Info("Saved data to: " + path);
     }
 
     private static T LoadEntity<T>(string path)

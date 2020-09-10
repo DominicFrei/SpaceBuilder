@@ -31,9 +31,9 @@ public class ResourceCounter : MonoBehaviour
     {
         while (true)
         {
-            _metal += UnityEngine.Random.Range(0, 20);
-            _crystal += UnityEngine.Random.Range(0, 10);
-            _deuterium += UnityEngine.Random.Range(0, 5);
+            _metal += 20;
+            _crystal += 10;
+            _deuterium += 5;
             UpdateInterface();
                         
             yield return _resourcesUpdateInterval;
