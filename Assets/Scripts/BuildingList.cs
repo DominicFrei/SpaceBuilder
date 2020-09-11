@@ -21,7 +21,7 @@ public class BuildingList : MonoBehaviour
     private void Start()
     {
         LoadBuildingData();
-        StartCoroutine(UpdateUICoroutine());
+        _ = StartCoroutine(UpdateUICoroutine());
     }
 
     private void OnApplicationQuit()
