@@ -70,16 +70,12 @@ public class BuildingList : MonoBehaviour
 
     private void UpdateUI()
     {
-        CheckBuildingUpgrade(_metalMine, _metalMineUpgradeButton);
-        CheckBuildingUpgrade(_crystalMine, _crystalMineUpgradeButton);
-        CheckBuildingUpgrade(_deuteriumMine, _deuteriumMineUpgradeButton);
-
-        _textMetalMine.text = "Metal Mine (Level " + _metalMine.Level + ")";
-        _textCrystalMine.text = "Crystal Mine (Level " + _crystalMine.Level + ")";
-        _textDeuteriumMine.text = "Deuterium Mine (Level " + _deuteriumMine.Level + ")";
+        CheckBuildingUpgrade(_metalMine, _textMetalMine, _metalMineUpgradeButton);
+        CheckBuildingUpgrade(_crystalMine, _textCrystalMine, _crystalMineUpgradeButton);
+        CheckBuildingUpgrade(_deuteriumMine, _textDeuteriumMine, _deuteriumMineUpgradeButton);
     }
 
-    private void CheckBuildingUpgrade(BuildingEntity building, Button button)
+    private void CheckBuildingUpgrade(BuildingEntity building, Text text, Button button)
     {
         if (building.IsUpgrading)
         {
@@ -98,6 +94,13 @@ public class BuildingList : MonoBehaviour
                 building.IsUpgrading = false;
                 building.UpgradeFinishedAt = null;
 
+                int upgradeCostMetal = building.Level * 100;
+                int upgradeCostCrystal = building.Level * 50;
+                int upgradeCostDeuterium = building.Level * 25;
+
+                text.text = building.Name + "(Level " + building.Level + ")\n"
+                            + "  Next Upgrade:\n"
+                            + "  " + upgradeCostMetal + " Metal / " + upgradeCostCrystal + " Crystal / " + upgradeCostDeuterium + " Deuterium";
                 button.GetComponentInChildren<Text>().text = "Upgrade";
                 SetButtonInteractibility(true);
 
@@ -110,6 +113,13 @@ public class BuildingList : MonoBehaviour
         }
         else
         {
+            int upgradeCostMetal = building.Level * 100;
+            int upgradeCostCrystal = building.Level * 50;
+            int upgradeCostDeuterium = building.Level * 25;
+
+            text.text = building.Name + "(Level " + building.Level + ")\n"
+                            + "  Next Upgrade:\n"
+                            + "  " + upgradeCostMetal + " Metal / " + upgradeCostCrystal + " Crystal / " + upgradeCostDeuterium + " Deuterium";
             button.GetComponentInChildren<Text>().text = "Upgrade";
             Logger.Debug("No upgrade running for " + building.Name + ".");
         }
