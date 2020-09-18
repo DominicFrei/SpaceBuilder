@@ -43,7 +43,7 @@ public static class DateHelper
 
         if (!dateParsedSuccessfully)
         {
-            Logger.Warning("Could not parse saved date. Maybe never saved before.");
+            Logger.Warning("Could not parse date (" + dateString + "). Maybe never saved before.");
             return null;
         }
 

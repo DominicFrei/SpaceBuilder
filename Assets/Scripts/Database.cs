@@ -14,18 +14,19 @@ public static class Database
     public static void SaveResources()
     {
         string lastUpdateString = DateHelper.ToUniversalDateString(DateTime.Now);
-        Resources.Instance.LastUpdate = lastUpdateString;
-        Database.SaveEntity<Resources>(Resources.Instance, _savePathResources);
-        Logger.Debug("Saved resources: " + Resources.Instance.Metal + " / " + Resources.Instance.Crystal + " / " + Resources.Instance.Deuterium + " / " + lastUpdateString);
+        ResourcesEntity resourcesEntity = new ResourcesEntity(Resources.Instance.Metal, Resources.Instance.Crystal, Resources.Instance.Deuterium, lastUpdateString);
+        Database.SaveEntity<ResourcesEntity>(resourcesEntity, _savePathResources);
+        Logger.Info("Saved resources: " + Resources.Instance.Metal + " / " + Resources.Instance.Crystal + " / " + Resources.Instance.Deuterium);
+        Logger.Info("lastUpdateString (" + lastUpdateString + ")");
     }
 
     public static void LoadResources()
     {
-        Resources resources;
+        ResourcesEntity resourcesEntity;
 
         try
         {
-            resources = LoadEntity<Resources>(_savePathResources);
+            resourcesEntity = LoadEntity<ResourcesEntity>(_savePathResources);
         }
         catch (Exception exception)
         {
@@ -33,9 +34,15 @@ public static class Database
             return;
         }
 
-        DateTime lastUpdate = DateHelper.UniversalDateFromString(Resources.Instance.LastUpdate) ?? DateTime.Now;
+        DateTime lastUpdate = DateHelper.UniversalDateFromString(resourcesEntity.LastUpdate) ?? DateTime.Now;
 
-        Logger.Debug("Resources loaded: " + Resources.Instance.Metal + " / " + Resources.Instance.Crystal + " / " + Resources.Instance.Deuterium);
+        Resources.Instance.Metal = resourcesEntity.Metal;
+        Resources.Instance.Crystal = resourcesEntity.Crystal;
+        Resources.Instance.Deuterium = resourcesEntity.Deuterium;
+        Resources.Instance.LastUpdate = lastUpdate;
+
+        Logger.Info("Resources loaded: " + Resources.Instance.Metal + " / " + Resources.Instance.Crystal + " / " + Resources.Instance.Deuterium);
+        Logger.Info("resources.LastUpdate (" + resourcesEntity.LastUpdate + ") --> Resources.Instance.LastUpdate (" + Resources.Instance.LastUpdate + ")");
     }
     #endregion
 

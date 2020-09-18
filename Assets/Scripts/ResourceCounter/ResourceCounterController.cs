@@ -73,7 +73,7 @@ public class ResourceCounterController : IResourceCounterController
     {
         Database.LoadResources();
 
-        int secondsSinceLastUpdate = DateHelper.DifferenceToNowInSeconds(DateHelper.UniversalDateFromString(Resources.Instance.LastUpdate));
+        int secondsSinceLastUpdate = DateHelper.DifferenceToNowInSeconds(Resources.Instance.LastUpdate);
 
         int addedMetal = secondsSinceLastUpdate * Balancing.ResourceProductionPerSecond(BuildingType.MetalMine, _metalMineLevel);
         int addedCrystal = secondsSinceLastUpdate * Balancing.ResourceProductionPerSecond(BuildingType.CrystalMine, _crystalMineLevel);
