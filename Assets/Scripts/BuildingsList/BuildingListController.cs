@@ -2,10 +2,12 @@
 
 public interface IBuildingListController
 {
+    // View Lifecycle
     void Start();
     void UpdateUI();
     void OnApplicationQuit();
 
+    // User Input
     void MetalMineUpgradeClicked();
     void CrystalMineUpgradeClicked();
     void DeuteriumMineUpgradeClicked();
@@ -13,76 +15,28 @@ public interface IBuildingListController
 
 public class BuildingListController : IBuildingListController
 {
+    #region Private Fields
     private IBuildingListView _buildingListView;
 
     private BuildingEntity _metalMine = null;
     private BuildingEntity _crystalMine = null;
     private BuildingEntity _deuteriumMine = null;
+    #endregion
 
-    private enum BuildingType
-    {
-        MetalMine,
-        CrystalMine,
-        DeuteriumMine
-    }
-
+    #region Initialiser / Finaliser
     public BuildingListController(IBuildingListView buildingListView)
     {
         _buildingListView = buildingListView;
     }
+    #endregion
 
+    #region Public Functions
     public void Start()
     {
         BuildingsEntity buildingsEntity = Database.LoadBuildings();
         _metalMine = buildingsEntity.MetalMine;
         _crystalMine = buildingsEntity.CrystalMine;
         _deuteriumMine = buildingsEntity.DeuteriumMine;
-    }
-
-    public void OnApplicationQuit()
-    {
-        BuildingsEntity buildingsEntity = new BuildingsEntity(_metalMine, _crystalMine, _deuteriumMine);
-        Database.SaveBuildings(buildingsEntity);
-    }
-
-    public void MetalMineUpgradeClicked()
-    {
-        if (null == _metalMine)
-        {
-            Logger.Error("_metalMine is null.");
-            return;
-        }
-
-        _metalMine.IsUpgrading = true;
-        _metalMine.UpgradeFinishedAt = DateTime.UtcNow.AddSeconds(10);
-        UpdateUI();
-    }
-
-    public void CrystalMineUpgradeClicked()
-    {
-        if (null == _crystalMine)
-        {
-            Logger.Error("_crystalMine is null.");
-            return;
-        }
-
-        _crystalMine.IsUpgrading = true;
-        _crystalMine.UpgradeFinishedAt = DateTime.UtcNow.AddSeconds(10);
-        UpdateUI();
-    }
-
-    public void DeuteriumMineUpgradeClicked()
-    {
-        if (null == _deuteriumMine)
-        {
-            Logger.Error("_deuteriumMine is null.");
-            return;
-        }
-
-        _deuteriumMine.IsUpgrading = true;
-        _deuteriumMine.UpgradeFinishedAt = DateTime.UtcNow.AddSeconds(10);
-
-        UpdateUI();
     }
 
     public void UpdateUI()
@@ -95,6 +49,29 @@ public class BuildingListController : IBuildingListController
         _buildingListView.SetButtonInteractibility(!isAtLeastOneMineUpgrading);
     }
 
+    public void OnApplicationQuit()
+    {
+        BuildingsEntity buildingsEntity = new BuildingsEntity(_metalMine, _crystalMine, _deuteriumMine);
+        Database.SaveBuildings(buildingsEntity);
+    }
+
+    public void MetalMineUpgradeClicked()
+    {
+        ApplyUpgradeForBuilding(_metalMine);
+    }
+
+    public void CrystalMineUpgradeClicked()
+    {
+        ApplyUpgradeForBuilding(_crystalMine);
+    }
+
+    public void DeuteriumMineUpgradeClicked()
+    {
+        ApplyUpgradeForBuilding(_deuteriumMine);
+    }
+    #endregion
+
+    #region Private Functions
     // TODO: rework for readability
     private bool CheckBuildingUpgrade(BuildingType buildingType)
     {
@@ -118,9 +95,7 @@ public class BuildingListController : IBuildingListController
         string buildingText = "";
         string buttonText = "";
 
-        int upgradeCostMetal = building.Level * 100;
-        int upgradeCostCrystal = building.Level * 50;
-        int upgradeCostDeuterium = building.Level * 25;
+        (int upgradeCostMetal, int upgradeCostCrystal, int upgradeCostDeuterium) = Balancing.ResourceCostForUpdate(building);
 
         if (building.IsUpgrading)
         {
@@ -145,6 +120,15 @@ public class BuildingListController : IBuildingListController
                             + "  Next Upgrade:\n"
                             + "  " + upgradeCostMetal + " Metal / " + upgradeCostCrystal + " Crystal / " + upgradeCostDeuterium + " Deuterium";
                 buttonText = "Upgrade";
+
+                if (null == EventManager.EventBuildingLevelsChanged)
+                {
+                    Logger.Error("EventManager.BuildingLevelsChanged is null.");
+                }
+                else
+                {
+                    EventManager.EventBuildingLevelsChanged.Invoke(_metalMine.Level, _crystalMine.Level, _deuteriumMine.Level);
+                }
 
                 Logger.Debug("Upgrade for " + building.Name + " has finished.");
             }
@@ -193,5 +177,30 @@ public class BuildingListController : IBuildingListController
 
         return building.IsUpgrading;
     }
+
+    private void ApplyUpgradeForBuilding(BuildingEntity building)
+    {
+        if (null == building)
+        {
+            Logger.Error("building is null.");
+            return;
+        }
+
+        (int upgradeCostMetal, int upgradeCostCrystal, int upgradeCostDeuterium) = Balancing.ResourceCostForUpdate(building);
+
+        if (Resources.Instance.Metal >= upgradeCostMetal && Resources.Instance.Crystal >= upgradeCostCrystal && Resources.Instance.Deuterium >= upgradeCostDeuterium)
+        {
+            EventManager.EventResourcesUsed.Invoke(upgradeCostMetal, upgradeCostCrystal, upgradeCostDeuterium);
+            building.IsUpgrading = true;
+            building.UpgradeFinishedAt = Balancing.UpgradeFinishedAt(building);
+
+            UpdateUI();
+        }
+        else
+        {
+            Logger.Info("Building cannot be built, not enough resources.");
+        }
+    }
+    #endregion
 
 }

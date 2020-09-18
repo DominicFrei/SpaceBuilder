@@ -4,19 +4,21 @@ using UnityEngine.UI;
 
 public interface IBuildingListView
 {
+    // Text Objects
     void UpdateMetalMineText(string text);
     void UpdateCrystalMineText(string text);
     void UpdateDeuteriumMineText(string text);
 
+    // Button Objects
     void UpdateMetalMineButtonText(string text);
     void UpdateCrystalMineButtonText(string text);
     void UpdateDeuteriumMineButtonText(string text);
-
     void SetButtonInteractibility(bool isInteractable);
 }
 
 public class BuildingListView : MonoBehaviour, IBuildingListView
 {
+    #region Private Fields
     [SerializeField] private Text _textMetalMine = null;
     [SerializeField] private Text _textCrystalMine = null;
     [SerializeField] private Text _textDeuteriumMine = null;
@@ -28,6 +30,7 @@ public class BuildingListView : MonoBehaviour, IBuildingListView
     private IBuildingListController _buildingListController = null;
 
     private readonly WaitForSeconds _buldingsListUpdateInterval = new WaitForSeconds(1.0f);
+    #endregion
 
     #region View Lifecycle
 
@@ -70,11 +73,9 @@ public class BuildingListView : MonoBehaviour, IBuildingListView
 
         _buildingListController.OnApplicationQuit();
     }
-
     #endregion
 
-    #region UI
-
+    #region Public Functions
     public void UpdateMetalMineText(string text)
     {
         if (null == _textMetalMine)
@@ -174,11 +175,9 @@ public class BuildingListView : MonoBehaviour, IBuildingListView
         _crystalMineUpgradeButton.interactable = isInteractable;
         _deuteriumMineUpgradeButton.interactable = isInteractable;
     }
-
     #endregion
 
     #region User Interaction
-
     public void MetalMineUpgradeClicked()
     {
         if (null == _buildingListController)
@@ -211,7 +210,6 @@ public class BuildingListView : MonoBehaviour, IBuildingListView
 
         _buildingListController.DeuteriumMineUpgradeClicked();
     }
-
     #endregion
 
 }

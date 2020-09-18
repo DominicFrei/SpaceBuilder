@@ -1,20 +1,27 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ResetGame : MonoBehaviour
+public sealed class ResetGame : MonoBehaviour
 {
-    public void ResetGameState()
+    public static void ResetGameState()
     {
         Time.timeScale = 0.0f;
-        Database.SaveResources(0, 0, 0, DateTime.Now);
-        BuildingEntity metalMine = new BuildingEntity("Metal Mine", 1, false, null);
-        BuildingEntity crystalMine = new BuildingEntity("Crystal Mine", 1, false, null);
-        BuildingEntity deuteriumMine = new BuildingEntity("Deuterium Mine", 1, false, null);
+
+        Resources.Instance.Metal = 0;
+        Resources.Instance.Crystal = 0;
+        Resources.Instance.Deuterium = 0;
+        Resources.Instance.LastUpdate = "";
+        Database.SaveResources();
+
+        BuildingEntity metalMine = new BuildingEntity("Metal Mine", BuildingType.MetalMine, 1, false, null);
+        BuildingEntity crystalMine = new BuildingEntity("Crystal Mine", BuildingType.CrystalMine, 1, false, null);
+        BuildingEntity deuteriumMine = new BuildingEntity("Deuterium Mine", BuildingType.DeuteriumMine, 1, false, null);
         BuildingsEntity buildingsEntity = new BuildingsEntity(metalMine, crystalMine, deuteriumMine);
         Database.SaveBuildings(buildingsEntity);
+
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
+
         Time.timeScale = 1.0f;
     }
 }

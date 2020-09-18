@@ -5,35 +5,41 @@ using UnityEngine;
 
 public static class Database
 {
+    #region Private Fields
     private static readonly string _savePathResources = Application.persistentDataPath + "/resources.bin";
     private static readonly string _savePathBuildings = Application.persistentDataPath + "/buildings.bin";
+    #endregion
 
-    public static void SaveResources(int metal, int crystal, int deuterium, DateTime lastUpdate)
+    #region Resources
+    public static void SaveResources()
     {
-        string lastUpdateString = DateHelper.ToUniversalDateString(lastUpdate);
-        ResourcesEntity resourcesEntity = new ResourcesEntity(metal, crystal, deuterium, lastUpdateString);
-        Database.SaveEntity<ResourcesEntity>(resourcesEntity, _savePathResources);
-        Logger.Debug("Saved resources: " + metal + " / " + crystal + " / " + deuterium + " / " + lastUpdateString);
+        string lastUpdateString = DateHelper.ToUniversalDateString(DateTime.Now);
+        Resources.Instance.LastUpdate = lastUpdateString;
+        Database.SaveEntity<Resources>(Resources.Instance, _savePathResources);
+        Logger.Debug("Saved resources: " + Resources.Instance.Metal + " / " + Resources.Instance.Crystal + " / " + Resources.Instance.Deuterium + " / " + lastUpdateString);
     }
 
-    public static (int metal, int crystal, int deuterium, DateTime lastUpdate) LoadResources()
+    public static void LoadResources()
     {
-        ResourcesEntity resourcesEntity;
+        Resources resources;
 
         try
         {
-            resourcesEntity = LoadEntity<ResourcesEntity>(_savePathResources);
+            resources = LoadEntity<Resources>(_savePathResources);
         }
         catch (Exception exception)
         {
             Logger.Error("Exception while loading resources: " + exception);
-            return (0, 0, 0, DateTime.Now);
+            return;
         }
 
-        DateTime lastUpdate = DateHelper.UniversalDateFromString(resourcesEntity.LastUpdate) ?? DateTime.Now;
+        DateTime lastUpdate = DateHelper.UniversalDateFromString(Resources.Instance.LastUpdate) ?? DateTime.Now;
 
-        return (resourcesEntity.Metal, resourcesEntity.Crystal, resourcesEntity.Deuterium, lastUpdate);
+        Logger.Debug("Resources loaded: " + Resources.Instance.Metal + " / " + Resources.Instance.Crystal + " / " + Resources.Instance.Deuterium);
     }
+    #endregion
+
+    #region Buildings
     public static void SaveBuildings(BuildingsEntity buildingsEntity)
     {
         SaveEntity<BuildingsEntity>(buildingsEntity, _savePathBuildings);
@@ -44,7 +50,9 @@ public static class Database
     {
         return LoadEntity<BuildingsEntity>(_savePathBuildings);
     }
+    #endregion
 
+    #region Private Functions
     private static void SaveEntity<T>(T entity, string path)
     {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -92,5 +100,6 @@ public static class Database
 
         return entity;
     }
+    #endregion
 
 }

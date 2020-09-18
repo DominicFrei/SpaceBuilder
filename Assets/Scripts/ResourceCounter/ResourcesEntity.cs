@@ -1,16 +1,16 @@
-﻿[System.Serializable]
-public class ResourcesEntity
-{
-    public int Metal { get; private set; }
-    public int Crystal { get; private set; }
-    public int Deuterium { get; private set; }
-    public string LastUpdate { get; private set; }
+﻿using System;
 
-    public ResourcesEntity(int metal, int crystal, int deuterium, string lastUpdate)
-    {
-        Metal = metal;
-        Crystal = crystal;
-        Deuterium = deuterium;
-        LastUpdate = lastUpdate;
-    }
+[Serializable]
+public sealed class Resources
+{
+    // Singleton
+    private static readonly Lazy<Resources> lazy = new Lazy<Resources>(() => new Resources());
+    public static Resources Instance { get { return lazy.Value; } }
+    private Resources() {}
+
+    public int Metal = 0;
+    public int Crystal = 0;
+    public int Deuterium = 0;
+
+    public string LastUpdate = "";
 }

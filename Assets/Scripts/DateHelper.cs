@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Globalization;
-using UnityEngine;
 
 public static class DateHelper
 {
+    #region Private Fields
     private static readonly String _dateFormat = "O";
+    #endregion
+
     public static int DifferenceToNowInSeconds(DateTime? datetime)
     {
         return DifferenceInSeconds(datetime, DateTime.Now.ToUniversalTime());
