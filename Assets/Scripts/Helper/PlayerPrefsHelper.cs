@@ -7,8 +7,21 @@ public class PlayerPrefsHelper
     private static readonly String _keyMetal = "key.metal";
     private static readonly String _keyCrystal = "key.crystal";
     private static readonly String _keyDeuterium = "key.deuterium";
+
+    private static readonly String _keyMetalMineLevel = "key.metalMineLevel";
+    private static readonly String _keyCrystalMineLevel = "key.crystalMineLevel";
+    private static readonly String _keyDeuteriumMineLevel = "key.deuteriumMineLevel";
+
     private static readonly String _keyLastUpdate = "key.lastUpdate";
+
     private static readonly String _dateFormat = "O";
+
+    public enum Building
+    {
+        metalMine,
+        crystalMine,
+        deuteriumMine
+    }
 
     public static void SaveResources(int metal, int crystal, int deuterium)
     {
@@ -53,6 +66,40 @@ public class PlayerPrefsHelper
         }
 
         return lastUpdateDate;
+    }
+
+    public static void SaveBuildingLevel(Building building, int level)
+    {
+        switch (building)
+        {
+            case Building.metalMine:
+                PlayerPrefs.SetInt(_keyMetalMineLevel, level);
+                break;
+            case Building.crystalMine:
+                PlayerPrefs.SetInt(_keyCrystalMineLevel, level);
+                break;
+            case Building.deuteriumMine:
+                PlayerPrefs.SetInt(_keyDeuteriumMineLevel, level);
+                break;
+        }
+    }
+
+    public static int LoadBuildingLevel(Building building)
+    {
+        int level = 0;
+        switch (building)
+        {
+            case Building.metalMine:
+                level = PlayerPrefs.GetInt(_keyMetalMineLevel);
+                break;
+            case Building.crystalMine:
+                level = PlayerPrefs.GetInt(_keyCrystalMineLevel);
+                break;
+            case Building.deuteriumMine:
+                level = PlayerPrefs.GetInt(_keyDeuteriumMineLevel);
+                break;
+        }
+        return level;
     }
 
 }

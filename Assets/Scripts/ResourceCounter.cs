@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameState : MonoBehaviour
+public class ResourceCounter : MonoBehaviour
 {
     [SerializeField] private Text _textMetal = null;
     [SerializeField] private Text _textCrystal = null;
@@ -15,11 +15,17 @@ public class GameState : MonoBehaviour
 
     private readonly WaitForSeconds _resourcesUpdateInterval = new WaitForSeconds(1.0f);
 
-    void Start()
+    private void Start()
     {
         LoadResources();
         UpdateInterface();
         StartCoroutine(UpdateResourceCounter());
+    }
+
+    private void OnApplicationQuit()
+    {
+        PlayerPrefsHelper.SaveResources(_metal, _crystal, _deuterium);
+        PlayerPrefsHelper.SaveLastUpdateDate();
     }
 
     private IEnumerator UpdateResourceCounter()
@@ -29,11 +35,8 @@ public class GameState : MonoBehaviour
             _metal += UnityEngine.Random.Range(0, 20);
             _crystal += UnityEngine.Random.Range(0, 10);
             _deuterium += UnityEngine.Random.Range(0, 5);
-
             UpdateInterface();
-            PlayerPrefsHelper.SaveResources(_metal, _crystal, _deuterium);
-            PlayerPrefsHelper.SaveLastUpdateDate();
-
+                        
             yield return _resourcesUpdateInterval;
         }
     }
