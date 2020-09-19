@@ -95,12 +95,11 @@ public class BuildingListController : IBuildingListController
         string buildingText = "";
         string buttonText = "";
 
-        (int upgradeCostMetal, int upgradeCostCrystal, int upgradeCostDeuterium) = Balancing.ResourceCostForUpdate(building);
-
         if (building.IsUpgrading)
         {
             if (null != building.UpgradeFinishedAt && DateTime.UtcNow < building.UpgradeFinishedAt)
             {
+                (int upgradeCostMetal, int upgradeCostCrystal, int upgradeCostDeuterium) = Balancing.ResourceCostForUpdate(building);
                 buildingText = building.Name + "(Level " + building.Level + ")\n"
                             + "  Next Upgrade:\n"
                             + "  " + upgradeCostMetal + " Metal / " + upgradeCostCrystal + " Crystal / " + upgradeCostDeuterium + " Deuterium";
@@ -116,6 +115,7 @@ public class BuildingListController : IBuildingListController
                 building.IsUpgrading = false;
                 building.UpgradeFinishedAt = null;
 
+                (int upgradeCostMetal, int upgradeCostCrystal, int upgradeCostDeuterium) = Balancing.ResourceCostForUpdate(building);
                 buildingText = building.Name + "(Level " + building.Level + ")\n"
                             + "  Next Upgrade:\n"
                             + "  " + upgradeCostMetal + " Metal / " + upgradeCostCrystal + " Crystal / " + upgradeCostDeuterium + " Deuterium";
@@ -139,6 +139,7 @@ public class BuildingListController : IBuildingListController
         }
         else
         {
+            (int upgradeCostMetal, int upgradeCostCrystal, int upgradeCostDeuterium) = Balancing.ResourceCostForUpdate(building);
             buildingText = building.Name + "(Level " + building.Level + ")\n"
                             + "  Next Upgrade:\n"
                             + "  " + upgradeCostMetal + " Metal / " + upgradeCostCrystal + " Crystal / " + upgradeCostDeuterium + " Deuterium";
