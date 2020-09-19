@@ -46,9 +46,12 @@ public class BuildingListController : IBuildingListController
         bool isDeuteriumMineUpgrading = CheckBuildingUpgrade(BuildingType.DeuteriumMine);
 
         bool isAtLeastOneMineUpgrading = isMetalMineUpgrading || isCrystalMineUpgrading || isDeuteriumMineUpgrading;
-        _buildingListView.SetMetalMineButtonInteractable(!isAtLeastOneMineUpgrading);
-        _buildingListView.SetCrystallMineButtonInteractable(!isAtLeastOneMineUpgrading);
-        _buildingListView.SetDeuteriumMineButtonInteractable(!isAtLeastOneMineUpgrading);
+        if (isAtLeastOneMineUpgrading)
+        {
+            _buildingListView.SetMetalMineButtonInteractable(false);
+            _buildingListView.SetCrystallMineButtonInteractable(false);
+            _buildingListView.SetDeuteriumMineButtonInteractable(false);
+        }
     }
 
     public void OnApplicationQuit()
@@ -74,10 +77,9 @@ public class BuildingListController : IBuildingListController
     #endregion
 
     #region Private Functions
-    // TODO: rework for readability
-    private bool CheckBuildingUpgrade(BuildingType buildingType)
+    private BuildingEntity BuildingForBuildingType(BuildingType buildingType)
     {
-        BuildingEntity building;
+        BuildingEntity building = null;
         switch (buildingType)
         {
             case BuildingType.MetalMine:
@@ -90,8 +92,20 @@ public class BuildingListController : IBuildingListController
                 building = _deuteriumMine;
                 break;
             default:
-                Logger.Error("Invalid building type.");
-                return false;
+                Logger.Error("Could not retrieve building from building type.");
+                break;
+        }
+        return building;
+    }
+
+    // TODO: rework for readability
+    private bool CheckBuildingUpgrade(BuildingType buildingType)
+    {
+        BuildingEntity building = BuildingForBuildingType(buildingType);
+        if (null == building)
+        {
+            Logger.Error("building is null.");
+            return false;
         }
 
         string buildingText = "";
