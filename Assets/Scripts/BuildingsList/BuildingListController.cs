@@ -173,10 +173,9 @@ public class BuildingListController : IBuildingListController
             return;
         }
 
-        (int upgradeCostMetal, int upgradeCostCrystal, int upgradeCostDeuterium) = Balancing.ResourceCostForUpdate(building);
-
-        if (Resources.Instance.Metal >= upgradeCostMetal && Resources.Instance.Crystal >= upgradeCostCrystal && Resources.Instance.Deuterium >= upgradeCostDeuterium)
+        if (IsUpgradeForBuildingPossible(building))
         {
+            (int upgradeCostMetal, int upgradeCostCrystal, int upgradeCostDeuterium) = Balancing.ResourceCostForUpdate(building);
             EventManager.EventResourcesUsed.Invoke(upgradeCostMetal, upgradeCostCrystal, upgradeCostDeuterium);
             building.IsUpgrading = true;
             building.UpgradeFinishedAt = Balancing.UpgradeFinishedAt(building);
@@ -203,24 +202,34 @@ public class BuildingListController : IBuildingListController
             buttonText = "Upgrading ... (" + timeInSeconds + " seconds)";
         }
 
+        bool isUpgradeForBuildingPossible = IsUpgradeForBuildingPossible(building);
+        bool isBuildingUpgrading = building.IsUpgrading;
+        bool shouldUpgradeButtonBeInteractable = isUpgradeForBuildingPossible && !isBuildingUpgrading;
         switch (buildingType)
         {
             case BuildingType.MetalMine:
-                _buildingListView.SetMetalMineButtonInteractable(!building.IsUpgrading);
+                _buildingListView.SetMetalMineButtonInteractable(shouldUpgradeButtonBeInteractable);
                 _buildingListView.UpdateMetalMineButtonText(buttonText);
                 break;
             case BuildingType.CrystalMine:
-                _buildingListView.SetCrystallMineButtonInteractable(!building.IsUpgrading);
+                _buildingListView.SetCrystallMineButtonInteractable(shouldUpgradeButtonBeInteractable);
                 _buildingListView.UpdateCrystalMineButtonText(buttonText);
                 break;
             case BuildingType.DeuteriumMine:
-                _buildingListView.SetDeuteriumMineButtonInteractable(!building.IsUpgrading);
+                _buildingListView.SetDeuteriumMineButtonInteractable(shouldUpgradeButtonBeInteractable);
                 _buildingListView.UpdateDeuteriumMineButtonText(buttonText);
                 break;
             default:
                 Logger.Warning("Invalid building type.");
                 break;
         }
+    }
+
+    private bool IsUpgradeForBuildingPossible(BuildingEntity building)
+    {
+        (int upgradeCostMetal, int upgradeCostCrystal, int upgradeCostDeuterium) = Balancing.ResourceCostForUpdate(building);
+        bool isUpgradeForBuildingPossible = Resources.Instance.Metal >= upgradeCostMetal && Resources.Instance.Crystal >= upgradeCostCrystal && Resources.Instance.Deuterium >= upgradeCostDeuterium;
+        return isUpgradeForBuildingPossible;
     }
     #endregion
 

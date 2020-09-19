@@ -55,7 +55,9 @@ public static class Database
 
     public static BuildingsEntity LoadBuildings()
     {
-        return LoadEntity<BuildingsEntity>(_savePathBuildings);
+        BuildingsEntity buildingsEntity = LoadEntity<BuildingsEntity>(_savePathBuildings);
+        Logger.Info("Buildings loaded (Levels): " + buildingsEntity.MetalMine.Level + " / " + buildingsEntity.CrystalMine.Level + " / " + buildingsEntity.DeuteriumMine.Level);
+        return buildingsEntity;
     }
     #endregion
 
