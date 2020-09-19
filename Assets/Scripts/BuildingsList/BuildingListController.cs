@@ -46,7 +46,9 @@ public class BuildingListController : IBuildingListController
         bool isDeuteriumMineUpgrading = CheckBuildingUpgrade(BuildingType.DeuteriumMine);
 
         bool isAtLeastOneMineUpgrading = isMetalMineUpgrading || isCrystalMineUpgrading || isDeuteriumMineUpgrading;
-        _buildingListView.SetButtonInteractibility(!isAtLeastOneMineUpgrading);
+        _buildingListView.SetMetalMineButtonInteractable(!isAtLeastOneMineUpgrading);
+        _buildingListView.SetCrystallMineButtonInteractable(!isAtLeastOneMineUpgrading);
+        _buildingListView.SetDeuteriumMineButtonInteractable(!isAtLeastOneMineUpgrading);
     }
 
     public void OnApplicationQuit()
