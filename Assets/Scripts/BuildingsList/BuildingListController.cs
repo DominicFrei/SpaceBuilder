@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine.SceneManagement;
 
 public interface IBuildingListController
 {
@@ -7,11 +8,14 @@ public interface IBuildingListController
     void UpdateUI();
     void OnApplicationQuit();
 
-    // User Input
+    // Upgrades
     void UpgradeMetalMineClicked();
     void UpgradeCrystalMineClicked();
     void UpgradeDeuteriumMineClicked();
     void UpgradeShipyardClicked();
+
+    // Switch Screens
+    void ShipyardClicked();
 }
 
 public class BuildingListController : IBuildingListController
@@ -105,6 +109,11 @@ public class BuildingListController : IBuildingListController
     public void UpgradeShipyardClicked()
     {
         StartUpgradeFor(_shipyard);
+    }
+
+    public void ShipyardClicked()
+    {
+        SceneManager.LoadScene("Shipyard");
     }
     #endregion
 

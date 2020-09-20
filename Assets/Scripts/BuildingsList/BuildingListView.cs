@@ -290,6 +290,17 @@ public class BuildingListView : MonoBehaviour, IBuildingListView
 
         _buildingListController.UpgradeShipyardClicked();
     }
+
+    public void ShipyardClicked()
+    {
+        if (null == _buildingListController)
+        {
+            Logger.Error("_buildingListController is null.");
+            return;
+        }
+
+        _buildingListController.ShipyardClicked();
+    }
     #endregion
 
 }
