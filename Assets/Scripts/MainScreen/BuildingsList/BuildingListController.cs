@@ -113,6 +113,9 @@ public class BuildingListController : IBuildingListController
 
     public void ShipyardClicked()
     {
+        Database.SaveResources();
+        BuildingListEntity buildingsEntity = new BuildingListEntity(_metalMine, _crystalMine, _deuteriumMine, _shipyard);
+        Database.SaveBuildings(buildingsEntity);
         SceneManager.LoadScene("Shipyard");
     }
     #endregion
