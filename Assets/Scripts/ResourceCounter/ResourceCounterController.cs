@@ -110,6 +110,7 @@ public class ResourceCounterController : IResourceCounterController
         EventManager.EventBuildingLevelsChanged.RemoveListener(SaveNewBuildingLevels);
     }
 
+    // TODO semaphore or equivilant
     private void ResourcesUsed(int metal, int crystal, int deuterium)
     {
         _deductedResourcesOnNextTick.Item1 += metal;

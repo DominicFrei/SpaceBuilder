@@ -114,6 +114,7 @@ public class BuildingListController : IBuildingListController
 
     public void ShipyardClicked()
     {
+        // TODO Finishing a building while on another screen does not work yet.
         Database.SaveResources();
         BuildingListEntity buildingsEntity = new BuildingListEntity(_metalMine, _crystalMine, _deuteriumMine, _shipyard);
         Database.SaveBuildings(buildingsEntity);
