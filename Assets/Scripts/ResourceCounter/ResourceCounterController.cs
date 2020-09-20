@@ -17,6 +17,7 @@ public class ResourceCounterController : IResourceCounterController
     private int _metalMineLevel = 1;
     private int _crystalMineLevel = 1;
     private int _deuteriumMineLevel = 1;
+    private int _shipyardLevel = 1;
 
     private (int, int, int) _deductedResourcesOnNextTick = (0, 0, 0);
     #endregion
@@ -119,11 +120,12 @@ public class ResourceCounterController : IResourceCounterController
         _deductedResourcesOnNextTick.Item3 += deuterium;
     }
 
-    private void SaveNewBuildingLevels(int metalMineLevel, int crystelMineLevel, int deuteriumMineLevel)
+    private void SaveNewBuildingLevels(int metalMineLevel, int crystelMineLevel, int deuteriumMineLevel, int shipyardLevel)
     {
         _metalMineLevel = metalMineLevel;
         _crystalMineLevel = crystelMineLevel;
         _deuteriumMineLevel = deuteriumMineLevel;
+        _shipyardLevel = shipyardLevel;
     }
     #endregion
 }

@@ -5,7 +5,8 @@ public enum BuildingType
     Unkown,
     MetalMine,
     CrystalMine,
-    DeuteriumMine
+    DeuteriumMine,
+    Shipyard
 }
 
 [Serializable]

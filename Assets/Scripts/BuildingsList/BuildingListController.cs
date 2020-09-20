@@ -8,9 +8,10 @@ public interface IBuildingListController
     void OnApplicationQuit();
 
     // User Input
-    void MetalMineUpgradeClicked();
-    void CrystalMineUpgradeClicked();
-    void DeuteriumMineUpgradeClicked();
+    void UpgradeMetalMineClicked();
+    void UpgradeCrystalMineClicked();
+    void UpgradeDeuteriumMineClicked();
+    void UpgradeShipyardClicked();
 }
 
 public class BuildingListController : IBuildingListController
@@ -21,6 +22,7 @@ public class BuildingListController : IBuildingListController
     private BuildingEntity _metalMine = null;
     private BuildingEntity _crystalMine = null;
     private BuildingEntity _deuteriumMine = null;
+    private BuildingEntity _shipyard = null;
     #endregion
 
     #region Initialiser / Finaliser
@@ -37,6 +39,7 @@ public class BuildingListController : IBuildingListController
         _metalMine = buildingsEntity.MetalMine;
         _crystalMine = buildingsEntity.CrystalMine;
         _deuteriumMine = buildingsEntity.DeuteriumMine;
+        _shipyard = buildingsEntity.Shipyard;
     }
 
     public void UpdateUI()
@@ -45,19 +48,22 @@ public class BuildingListController : IBuildingListController
         CheckUpgradeStatusForBuilding(_metalMine);
         CheckUpgradeStatusForBuilding(_crystalMine);
         CheckUpgradeStatusForBuilding(_deuteriumMine);
+        CheckUpgradeStatusForBuilding(_shipyard);
 
         // Update building levels + upgrade costs
         UpdateTextsForBuilding(BuildingType.MetalMine);
         UpdateTextsForBuilding(BuildingType.CrystalMine);
         UpdateTextsForBuilding(BuildingType.DeuteriumMine);
+        UpdateTextsForBuilding(BuildingType.Shipyard);
 
         // Update button texts + interactibility
         UpdateButtonForBuilding(BuildingType.MetalMine);
         UpdateButtonForBuilding(BuildingType.CrystalMine);
         UpdateButtonForBuilding(BuildingType.DeuteriumMine);
+        UpdateButtonForBuilding(BuildingType.Shipyard);
 
         // Deactivate all buttons if at least one upgrade is running.
-        BuildingEntity[] buildings = { _metalMine, _crystalMine, _deuteriumMine };
+        BuildingEntity[] buildings = { _metalMine, _crystalMine, _deuteriumMine, _shipyard };
         bool isAtLeastOneMineUpgrading = false;
         foreach (BuildingEntity building in buildings)
         {
@@ -77,23 +83,28 @@ public class BuildingListController : IBuildingListController
 
     public void OnApplicationQuit()
     {
-        BuildingsEntity buildingsEntity = new BuildingsEntity(_metalMine, _crystalMine, _deuteriumMine);
+        BuildingsEntity buildingsEntity = new BuildingsEntity(_metalMine, _crystalMine, _deuteriumMine, _shipyard);
         Database.SaveBuildings(buildingsEntity);
     }
 
-    public void MetalMineUpgradeClicked()
+    public void UpgradeMetalMineClicked()
     {
         StartUpgradeFor(_metalMine);
     }
 
-    public void CrystalMineUpgradeClicked()
+    public void UpgradeCrystalMineClicked()
     {
         StartUpgradeFor(_crystalMine);
     }
 
-    public void DeuteriumMineUpgradeClicked()
+    public void UpgradeDeuteriumMineClicked()
     {
         StartUpgradeFor(_deuteriumMine);
+    }
+
+    public void UpgradeShipyardClicked()
+    {
+        StartUpgradeFor(_shipyard);
     }
     #endregion
 
@@ -119,7 +130,7 @@ public class BuildingListController : IBuildingListController
                 return;
             }
 
-            EventManager.EventBuildingLevelsChanged.Invoke(_metalMine.Level, _crystalMine.Level, _deuteriumMine.Level);
+            EventManager.EventBuildingLevelsChanged.Invoke(_metalMine.Level, _crystalMine.Level, _deuteriumMine.Level, _shipyard.Level);
         }
     }
 
@@ -141,6 +152,9 @@ public class BuildingListController : IBuildingListController
             case BuildingType.DeuteriumMine:
                 _buildingListView.UpdateDeuteriumMineText(buildingText);
                 break;
+            case BuildingType.Shipyard:
+                _buildingListView.UpdateShipyardText(buildingText);
+                break;
         }
     }
 
@@ -157,6 +171,9 @@ public class BuildingListController : IBuildingListController
                 break;
             case BuildingType.DeuteriumMine:
                 building = _deuteriumMine;
+                break;
+            case BuildingType.Shipyard:
+                building = _shipyard;
                 break;
             default:
                 Logger.Error("Could not retrieve building from building type.");
@@ -218,6 +235,10 @@ public class BuildingListController : IBuildingListController
             case BuildingType.DeuteriumMine:
                 _buildingListView.SetDeuteriumMineButtonInteractable(shouldUpgradeButtonBeInteractable);
                 _buildingListView.UpdateDeuteriumMineButtonText(buttonText);
+                break;
+            case BuildingType.Shipyard:
+                _buildingListView.SetShipyardButtonInteractable(shouldUpgradeButtonBeInteractable);
+                _buildingListView.UpdateShipyardButtonText(buttonText);
                 break;
             default:
                 Logger.Warning("Invalid building type.");

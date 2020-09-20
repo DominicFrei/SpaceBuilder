@@ -8,16 +8,19 @@ public interface IBuildingListView
     void UpdateMetalMineText(string text);
     void UpdateCrystalMineText(string text);
     void UpdateDeuteriumMineText(string text);
+    void UpdateShipyardText(string text);
 
     // Button Objects Texts
     void UpdateMetalMineButtonText(string text);
     void UpdateCrystalMineButtonText(string text);
     void UpdateDeuteriumMineButtonText(string text);
+    void UpdateShipyardButtonText(string text);
 
     // Button Objects Activation / Deactivation
     void SetMetalMineButtonInteractable(bool isInteractable);
     void SetCrystallMineButtonInteractable(bool isInteractable);
     void SetDeuteriumMineButtonInteractable(bool isInteractable);
+    void SetShipyardButtonInteractable(bool isInteractable);
 }
 
 public class BuildingListView : MonoBehaviour, IBuildingListView
@@ -26,10 +29,12 @@ public class BuildingListView : MonoBehaviour, IBuildingListView
     [SerializeField] private Text _textMetalMine = null;
     [SerializeField] private Text _textCrystalMine = null;
     [SerializeField] private Text _textDeuteriumMine = null;
+    [SerializeField] private Text _textShipyard = null;
 
-    [SerializeField] private Button _metalMineUpgradeButton = null;
-    [SerializeField] private Button _crystalMineUpgradeButton = null;
-    [SerializeField] private Button _deuteriumMineUpgradeButton = null;
+    [SerializeField] private Button _buttonUpgradeMatelMine = null;
+    [SerializeField] private Button _buttonUpgradeCrystalMine = null;
+    [SerializeField] private Button _buttonUpgradeDeuteriumMine = null;
+    [SerializeField] private Button _buttonUpgradeShipyard = null;
 
     private IBuildingListController _buildingListController = null;
 
@@ -113,15 +118,26 @@ public class BuildingListView : MonoBehaviour, IBuildingListView
         _textDeuteriumMine.text = text;
     }
 
+    public void UpdateShipyardText(string text)
+    {
+        if (null == _textShipyard)
+        {
+            Logger.Error("_textShipyard is null.");
+            return;
+        }
+
+        _textShipyard.text = text;
+    }
+
     public void UpdateMetalMineButtonText(string text)
     {
-        if (null == _metalMineUpgradeButton)
+        if (null == _buttonUpgradeMatelMine)
         {
             Logger.Error("_metalMineUpgradeButton is null.");
             return;
         }
 
-        Text buttonText = _metalMineUpgradeButton.GetComponentInChildren<Text>();
+        Text buttonText = _buttonUpgradeMatelMine.GetComponentInChildren<Text>();
         if (null == buttonText)
         {
             Logger.Error("_metalMineUpgradeButton does not have a text component.");
@@ -133,13 +149,13 @@ public class BuildingListView : MonoBehaviour, IBuildingListView
 
     public void UpdateCrystalMineButtonText(string text)
     {
-        if (null == _crystalMineUpgradeButton)
+        if (null == _buttonUpgradeCrystalMine)
         {
             Logger.Error("_crystalMineUpgradeButton is null.");
             return;
         }
 
-        Text buttonText = _crystalMineUpgradeButton.GetComponentInChildren<Text>();
+        Text buttonText = _buttonUpgradeCrystalMine.GetComponentInChildren<Text>();
         if (null == buttonText)
         {
             Logger.Error("_crystalMineUpgradeButton does not have a text component.");
@@ -151,13 +167,13 @@ public class BuildingListView : MonoBehaviour, IBuildingListView
 
     public void UpdateDeuteriumMineButtonText(string text)
     {
-        if (null == _deuteriumMineUpgradeButton)
+        if (null == _buttonUpgradeDeuteriumMine)
         {
             Logger.Error("_deuteriumMineUpgradeButton is null.");
             return;
         }
 
-        Text buttonText = _deuteriumMineUpgradeButton.GetComponentInChildren<Text>();
+        Text buttonText = _buttonUpgradeDeuteriumMine.GetComponentInChildren<Text>();
         if (null == buttonText)
         {
             Logger.Error("_deuteriumMineUpgradeButton does not have a text component.");
@@ -167,42 +183,71 @@ public class BuildingListView : MonoBehaviour, IBuildingListView
         buttonText.text = text;
     }
 
+    public void UpdateShipyardButtonText(string text)
+    {
+        if (null == _buttonUpgradeShipyard)
+        {
+            Logger.Error("_buttonUpgradeShipyard is null.");
+            return;
+        }
+
+        Text buttonText = _buttonUpgradeShipyard.GetComponentInChildren<Text>();
+        if (null == buttonText)
+        {
+            Logger.Error("_buttonUpgradeShipyard does not have a text component.");
+            return;
+        }
+
+        buttonText.text = text;
+    }
+
     public void SetMetalMineButtonInteractable(bool isInteractable)
     {
-        if (null == _metalMineUpgradeButton)
+        if (null == _buttonUpgradeMatelMine)
         {
             Logger.Error("_metalMineUpgradeButton is null.");
             return;
         }
 
-        _metalMineUpgradeButton.interactable = isInteractable;
+        _buttonUpgradeMatelMine.interactable = isInteractable;
     }
 
     public void SetCrystallMineButtonInteractable(bool isInteractable)
     {
-        if (null == _crystalMineUpgradeButton)
+        if (null == _buttonUpgradeCrystalMine)
         {
             Logger.Error("_crystalMineUpgradeButton is null.");
             return;
         }
 
-        _crystalMineUpgradeButton.interactable = isInteractable;
+        _buttonUpgradeCrystalMine.interactable = isInteractable;
     }
 
     public void SetDeuteriumMineButtonInteractable(bool isInteractable)
     {
-        if (null == _deuteriumMineUpgradeButton)
+        if (null == _buttonUpgradeDeuteriumMine)
         {
             Logger.Error("_deuteriumMineUpgradeButton is null.");
             return;
         }
 
-        _deuteriumMineUpgradeButton.interactable = isInteractable;
+        _buttonUpgradeDeuteriumMine.interactable = isInteractable;
+    }
+
+    public void SetShipyardButtonInteractable(bool isInteractable)
+    {
+        if (null == _buttonUpgradeShipyard)
+        {
+            Logger.Error("_buttonUpgradeShipyard is null.");
+            return;
+        }
+
+        _buttonUpgradeShipyard.interactable = isInteractable;
     }
     #endregion
 
     #region User Interaction
-    public void MetalMineUpgradeClicked()
+    public void UpgradeMetalMineClicked()
     {
         if (null == _buildingListController)
         {
@@ -210,10 +255,10 @@ public class BuildingListView : MonoBehaviour, IBuildingListView
             return;
         }
 
-        _buildingListController.MetalMineUpgradeClicked();
+        _buildingListController.UpgradeMetalMineClicked();
     }
 
-    public void CrystalMineUpgradeClicked()
+    public void UpgradeCrystalMineClicked()
     {
         if (null == _buildingListController)
         {
@@ -221,10 +266,10 @@ public class BuildingListView : MonoBehaviour, IBuildingListView
             return;
         }
 
-        _buildingListController.CrystalMineUpgradeClicked();
+        _buildingListController.UpgradeCrystalMineClicked();
     }
 
-    public void DeuteriumMineUpgradeClicked()
+    public void UpgradeDeuteriumMineClicked()
     {
         if (null == _buildingListController)
         {
@@ -232,7 +277,18 @@ public class BuildingListView : MonoBehaviour, IBuildingListView
             return;
         }
 
-        _buildingListController.DeuteriumMineUpgradeClicked();
+        _buildingListController.UpgradeDeuteriumMineClicked();
+    }
+
+    public void UpgradeShipyardClicked()
+    {
+        if (null == _buildingListController)
+        {
+            Logger.Error("_buildingListController is null.");
+            return;
+        }
+
+        _buildingListController.UpgradeShipyardClicked();
     }
     #endregion
 
