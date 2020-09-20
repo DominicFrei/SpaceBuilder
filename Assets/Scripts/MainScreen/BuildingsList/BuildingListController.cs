@@ -82,6 +82,7 @@ public class BuildingListController : IBuildingListController
             _buildingListView.SetMetalMineButtonInteractable(false);
             _buildingListView.SetCrystallMineButtonInteractable(false);
             _buildingListView.SetDeuteriumMineButtonInteractable(false);
+            _buildingListView.SetShipyardButtonInteractable(false);
         }
     }
 
