@@ -18,7 +18,7 @@ public sealed class ResetGame : MonoBehaviour
         BuildingEntity crystalMine = new BuildingEntity("Crystal Mine", BuildingType.CrystalMine, 1, false, null);
         BuildingEntity deuteriumMine = new BuildingEntity("Deuterium Mine", BuildingType.DeuteriumMine, 1, false, null);
         BuildingEntity shipyard = new BuildingEntity("Shipyard", BuildingType.Shipyard, 1, false, null);
-        BuildingsEntity buildingsEntity = new BuildingsEntity(metalMine, crystalMine, deuteriumMine, shipyard);
+        BuildingListEntity buildingsEntity = new BuildingListEntity(metalMine, crystalMine, deuteriumMine, shipyard);
         Database.SaveBuildings(buildingsEntity);
 
         Scene currentScene = SceneManager.GetActiveScene();

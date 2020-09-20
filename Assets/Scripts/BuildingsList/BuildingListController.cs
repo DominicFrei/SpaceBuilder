@@ -35,7 +35,7 @@ public class BuildingListController : IBuildingListController
     #region Public Functions
     public void Start()
     {
-        BuildingsEntity buildingsEntity = Database.LoadBuildings();
+        BuildingListEntity buildingsEntity = Database.LoadBuildings();
         _metalMine = buildingsEntity.MetalMine;
         _crystalMine = buildingsEntity.CrystalMine;
         _deuteriumMine = buildingsEntity.DeuteriumMine;
@@ -83,7 +83,7 @@ public class BuildingListController : IBuildingListController
 
     public void OnApplicationQuit()
     {
-        BuildingsEntity buildingsEntity = new BuildingsEntity(_metalMine, _crystalMine, _deuteriumMine, _shipyard);
+        BuildingListEntity buildingsEntity = new BuildingListEntity(_metalMine, _crystalMine, _deuteriumMine, _shipyard);
         Database.SaveBuildings(buildingsEntity);
     }
 

@@ -47,15 +47,15 @@ public static class Database
     #endregion
 
     #region Buildings
-    public static void SaveBuildings(BuildingsEntity buildingsEntity)
+    public static void SaveBuildings(BuildingListEntity buildingsEntity)
     {
-        SaveEntity<BuildingsEntity>(buildingsEntity, _savePathBuildings);
+        SaveEntity<BuildingListEntity>(buildingsEntity, _savePathBuildings);
         Logger.Debug("Saved buildings: " + buildingsEntity);
     }
 
-    public static BuildingsEntity LoadBuildings()
+    public static BuildingListEntity LoadBuildings()
     {
-        BuildingsEntity buildingsEntity = LoadEntity<BuildingsEntity>(_savePathBuildings);
+        BuildingListEntity buildingsEntity = LoadEntity<BuildingListEntity>(_savePathBuildings);
         Logger.Info("Buildings loaded (Levels): " + buildingsEntity.MetalMine.Level + " / " + buildingsEntity.CrystalMine.Level + " / " + buildingsEntity.DeuteriumMine.Level);
         return buildingsEntity;
     }
