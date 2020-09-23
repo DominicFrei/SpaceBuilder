@@ -14,9 +14,5 @@ public class LTrotateImage : MonoBehaviour
         LeanTween.rotateAroundLocal(gameObject, Vector3.forward, 360, rotspeed);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+ 
 }
