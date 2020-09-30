@@ -92,20 +92,20 @@ public class ShipyardView : MonoBehaviour, IShipyardView
 
     public int GetBattleshipInputFieldText()
     {
-        if (null == _textBattleship)
+        if (null == _inputBattleship)
         {
-            Logger.Error("_textBattleship is null.");
+            Logger.Error("_inputBattleship is null.");
             return 0;
         }
 
         int result = 0;
         try
         {
-            result = Int32.Parse(_textBattleship.text);
+            result = Int32.Parse(_inputBattleship.text);
         }
         catch (FormatException)
         {
-            Logger.Error("Could not parse battleship input: " + _textBattleship.text);
+            Logger.Error("Could not parse battleship input: " + _inputBattleship.text);
         }
 
         return result;
@@ -113,20 +113,20 @@ public class ShipyardView : MonoBehaviour, IShipyardView
 
     public int GetCargoshipInputFieldText()
     {
-        if (null == _textCargoship)
+        if (null == _inputCargoship)
         {
-            Logger.Error("_textCargoship is null.");
+            Logger.Error("_inputCargoship is null.");
             return 0;
         }
 
         int result = 0;
         try
         {
-            result = Int32.Parse(_textCargoship.text);
+            result = Int32.Parse(_inputCargoship.text);
         }
         catch (FormatException)
         {
-            Logger.Error("Could not parse cargoship input: " + _textCargoship.text);
+            Logger.Error("Could not parse cargoship input: " + _inputCargoship.text);
         }
 
         return result;
@@ -134,19 +134,26 @@ public class ShipyardView : MonoBehaviour, IShipyardView
 
     public void ClearInputFields()
     {
+        if (null == _inputFighter || null == _inputBattleship || null == _inputCargoship)
+        {
+            Logger.Error("At least one of the text fields is null.");
+            return;
+        }
 
+        _inputFighter.text = "";
+        _inputBattleship.text = "";
+        _inputCargoship.text = "";
     }
 
     public void SetNoResourceTextVisible(bool isVisible)
     {
-
+        _noResourcesText.gameObject.SetActive(isVisible);
     }
     #endregion
 
     #region User Interactions
     public void BuildShipsButtonClicked()
     {
-        _noResourcesText.gameObject.SetActive(true);
     }
 
     public void ShipyardBackButtonClicked()
