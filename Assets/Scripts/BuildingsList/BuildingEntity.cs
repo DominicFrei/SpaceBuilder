@@ -2,6 +2,7 @@
 
 public enum BuildingType
 {
+    Unkown,
     MetalMine,
     CrystalMine,
     DeuteriumMine
@@ -10,11 +11,11 @@ public enum BuildingType
 [Serializable]
 public class BuildingEntity
 {
-    public string Name;
-    public BuildingType Type;
-    public int Level;
-    public bool IsUpgrading;
-    public DateTime? UpgradeFinishedAt;
+    public string Name = "n/a";
+    public BuildingType Type = BuildingType.Unkown;
+    public int Level = -1;
+    public bool IsUpgrading = false;
+    public DateTime? UpgradeFinishedAt = null;
 
     public BuildingEntity(string name, BuildingType type, int level, bool isUpgrading, DateTime? upgradeFinishedAt)
     {

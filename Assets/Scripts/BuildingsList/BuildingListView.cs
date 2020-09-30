@@ -9,11 +9,15 @@ public interface IBuildingListView
     void UpdateCrystalMineText(string text);
     void UpdateDeuteriumMineText(string text);
 
-    // Button Objects
+    // Button Objects Texts
     void UpdateMetalMineButtonText(string text);
     void UpdateCrystalMineButtonText(string text);
     void UpdateDeuteriumMineButtonText(string text);
-    void SetButtonInteractibility(bool isInteractable);
+
+    // Button Objects Activation / Deactivation
+    void SetMetalMineButtonInteractable(bool isInteractable);
+    void SetCrystallMineButtonInteractable(bool isInteractable);
+    void SetDeuteriumMineButtonInteractable(bool isInteractable);
 }
 
 public class BuildingListView : MonoBehaviour, IBuildingListView
@@ -163,16 +167,36 @@ public class BuildingListView : MonoBehaviour, IBuildingListView
         buttonText.text = text;
     }
 
-    public void SetButtonInteractibility(bool isInteractable)
+    public void SetMetalMineButtonInteractable(bool isInteractable)
     {
-        if (null == _metalMineUpgradeButton || null == _crystalMineUpgradeButton || null == _deuteriumMineUpgradeButton)
+        if (null == _metalMineUpgradeButton)
         {
-            Logger.Error("At least on button is null.");
+            Logger.Error("_metalMineUpgradeButton is null.");
             return;
         }
 
         _metalMineUpgradeButton.interactable = isInteractable;
+    }
+
+    public void SetCrystallMineButtonInteractable(bool isInteractable)
+    {
+        if (null == _crystalMineUpgradeButton)
+        {
+            Logger.Error("_crystalMineUpgradeButton is null.");
+            return;
+        }
+
         _crystalMineUpgradeButton.interactable = isInteractable;
+    }
+
+    public void SetDeuteriumMineButtonInteractable(bool isInteractable)
+    {
+        if (null == _deuteriumMineUpgradeButton)
+        {
+            Logger.Error("_deuteriumMineUpgradeButton is null.");
+            return;
+        }
+
         _deuteriumMineUpgradeButton.interactable = isInteractable;
     }
     #endregion
