@@ -238,8 +238,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 95.99998, y: 92.95201}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 191, y: 116}
+  m_SizeDelta: {x: 250, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &80942743
 MonoBehaviour:
@@ -285,7 +285,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1488199853}
-        m_TargetAssemblyTypeName: BuildingList, Assembly-CSharp
+        m_TargetAssemblyTypeName: BuildingListView, Assembly-CSharp
         m_MethodName: MetalMineUpgradeClicked
         m_Mode: 1
         m_Arguments:
@@ -868,8 +868,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -59, y: 62.870003}
-  m_SizeDelta: {x: 250, y: 30}
+  m_AnchoredPosition: {x: -59, y: 0.000011444}
+  m_SizeDelta: {x: 350, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &793612809
 MonoBehaviour:
@@ -1028,8 +1028,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 95.99998, y: 32.868004}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 186.89998, y: -113.5}
+  m_SizeDelta: {x: 250, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &954780425
 MonoBehaviour:
@@ -1075,7 +1075,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1488199853}
-        m_TargetAssemblyTypeName: BuildingList, Assembly-CSharp
+        m_TargetAssemblyTypeName: BuildingListView, Assembly-CSharp
         m_MethodName: DeuteriumMineUpgradeClicked
         m_Mode: 1
         m_Arguments:
@@ -1239,8 +1239,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 95.99998, y: 62.952007}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 191, y: 0.000011444}
+  m_SizeDelta: {x: 250, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1038825416
 MonoBehaviour:
@@ -1286,7 +1286,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1488199853}
-        m_TargetAssemblyTypeName: BuildingList, Assembly-CSharp
+        m_TargetAssemblyTypeName: BuildingListView, Assembly-CSharp
         m_MethodName: CrystalMineUpgradeClicked
         m_Mode: 1
         m_Arguments:
@@ -1453,7 +1453,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -50, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1488199853
@@ -1471,6 +1471,9 @@ MonoBehaviour:
   _textMetalMine: {fileID: 1499847904}
   _textCrystalMine: {fileID: 793612809}
   _textDeuteriumMine: {fileID: 1758391849}
+  _metalMineUpgradeButton: {fileID: 80942743}
+  _crystalMineUpgradeButton: {fileID: 1038825416}
+  _deuteriumMineUpgradeButton: {fileID: 954780425}
 --- !u!1 &1499847902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1505,8 +1508,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -58.99994, y: 42.951996}
-  m_SizeDelta: {x: 250, y: 30}
+  m_AnchoredPosition: {x: -59, y: 66}
+  m_SizeDelta: {x: 350, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1499847904
 MonoBehaviour:
@@ -1550,6 +1553,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1499847902}
   m_CullTransparentMesh: 0
+--- !u!1 &1545946762
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1545946764}
+  - component: {fileID: 1545946763}
+  m_Layer: 0
+  m_Name: EventManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1545946763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545946762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4073c98bb693a4fce81147f50d76311d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1545946764
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545946762}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 357.9679, y: 230.10452, z: -3.3327854}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1555572242
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,8 +1684,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -59, y: 82.86803}
-  m_SizeDelta: {x: 250, y: 30}
+  m_AnchoredPosition: {x: -63.1, y: -63.5}
+  m_SizeDelta: {x: 350, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1758391849
 MonoBehaviour:

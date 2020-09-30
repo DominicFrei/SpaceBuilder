@@ -1,10 +1,12 @@
-﻿[System.Serializable]
+﻿using System;
+
+[Serializable]
 public class ResourcesEntity
 {
-    public int Metal { get; private set; }
-    public int Crystal { get; private set; }
-    public int Deuterium { get; private set; }
-    public string LastUpdate { get; private set; }
+    public int Metal;
+    public int Crystal;
+    public int Deuterium;
+    public string LastUpdate;
 
     public ResourcesEntity(int metal, int crystal, int deuterium, string lastUpdate)
     {

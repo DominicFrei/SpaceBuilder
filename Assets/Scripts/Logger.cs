@@ -1,8 +1,8 @@
-﻿public static class Logger
+﻿// TODO line numbers
 
-    // TODO line numbers
+public static class Logger
 {
-    public static LogLevel DefaultLogLevel = LogLevel.Debug;
+    public static LogLevel DefaultLogLevel = LogLevel.Info;
 
     public enum LogLevel
     {
@@ -54,6 +54,5 @@
             UnityEngine.Debug.Log(message);
         }
     }
-
 
 }

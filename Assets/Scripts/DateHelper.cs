@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Globalization;
-using UnityEngine;
 
 public static class DateHelper
 {
+    #region Private Fields
     private static readonly String _dateFormat = "O";
+    #endregion
+
     public static int DifferenceToNowInSeconds(DateTime? datetime)
     {
         return DifferenceInSeconds(datetime, DateTime.Now.ToUniversalTime());
@@ -41,7 +43,7 @@ public static class DateHelper
 
         if (!dateParsedSuccessfully)
         {
-            Logger.Warning("Could not parse saved date. Maybe never saved before.");
+            Logger.Warning("Could not parse date (" + dateString + "). Maybe never saved before.");
             return null;
         }
 
