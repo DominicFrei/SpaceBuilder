@@ -33,6 +33,15 @@ public class ShipyardView : MonoBehaviour, IShipyardView
 
     // Queue
     [SerializeField] private Text _textQueue = null;
+
+    private IShipyardController _shipyardController = null;
+    #endregion
+
+    #region View Lifecycle
+    private void Start()
+    {
+        _shipyardController = new ShipyardController(this);
+    }
     #endregion
 
     #region Public Functions
@@ -154,6 +163,7 @@ public class ShipyardView : MonoBehaviour, IShipyardView
     #region User Interactions
     public void BuildShipsButtonClicked()
     {
+        _shipyardController.BuildShipsButtonClicked();
     }
 
     public void ShipyardBackButtonClicked()

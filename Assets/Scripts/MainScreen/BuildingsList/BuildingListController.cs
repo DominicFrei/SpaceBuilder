@@ -21,7 +21,7 @@ public interface IBuildingListController
 public class BuildingListController : IBuildingListController
 {
     #region Private Fields
-    private IBuildingListView _buildingListView;
+    private readonly IBuildingListView _buildingListView;
 
     private BuildingEntity _metalMine = null;
     private BuildingEntity _crystalMine = null;
